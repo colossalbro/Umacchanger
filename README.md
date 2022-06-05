@@ -5,7 +5,7 @@
   
   
 ## Why Umacchanger
-  Because I'm lazy! When using macchanger program to alter the mac address of an interface, you'll have to follow the below steps;
+  Because I'm lazy! When using macchanger program to alter the mac address of an interface, you'll have to run through three steps
   - Bring down the network inteface you want to change (using ifconfig) 
   - Use the macchanger program to actually change the interface's mac address 
   - Bring the network interface up again (using ifconfig as well)
