@@ -1,0 +1,199 @@
+#! /bin/python3
+#colossal
+#Initial Write: March 8th, 2019
+#Last Updated: June 5th, 2022
+
+from sys import exit
+from time import sleep
+from subprocess import Popen, PIPE
+from argparse import ArgumentParser
+from os import system, path, getuid, listdir
+
+
+#######################
+####   functions   ####
+#######################
+def parse_cmd_line_args():
+    parser = ArgumentParser(prog='Umacchanger', description='A colossal custom written Mac address changer.')
+    meg = parser.add_mutually_exclusive_group()
+    meg.add_argument('-m', '--mac', help='Mac Address to be given to the new interface [-m 00:11:22:33:44:55]')
+    meg.add_argument('-r', '--random', help='The program sets a random mac address for the given interface', default=False, action='store_true')
+    meg.add_argument('-p', '--permanent', help='Restore the interface\'s burned in mac address from the NIC vendor', default=False, action='store_true')
+    parser.add_argument('interface', help='The Network Interface to be manipulated')
+    args = parser.parse_args()
+    return args
+
+
+
+
+
+def disable_network():
+    #stop the network manager
+    system('sudo service NetworkManager stop')
+
+
+
+
+
+def enable_network():
+    #start the network manager
+    system('sudo service NetworkManager start')
+
+
+
+
+def get_interface_mac(interface):
+    if not path.exists('/sys/class/net/' + interface):
+        return False
+    mac = open('/sys/class/net/'+interface+'/address').read().strip() 
+    return mac 
+
+
+
+
+
+def change_mac(interface, mac):
+    #set the given interface hw address to the specified mac.
+    #ifconfig wlan0 hw ether 00:11:22:33:44:55 --> (command used)
+
+    current_mac = get_interface_mac(interface)
+
+    if not current_mac:
+        print('[+] Invalid Interface Provided.')
+        exit()
+
+    new_mac = mac
+
+    if current_mac.lower() == new_mac.lower():
+        print('[+] Interface Mac Address Is The Same!')
+        exit()
+
+    invalid = False
+
+    print('[+] Killing Network Manager...')
+    sleep(1)
+    
+    disable_network()
+    system('sudo ifconfig ' + interface + ' down')
+    
+    print('[+] Attempting To Change Mac Adress...')
+    sleep(1)
+    command = Popen('sudo ifconfig ' + interface + ' hw ether ' + mac, stderr=PIPE, shell=True)
+    output = command.stderr.read().decode().strip()
+
+    if 'invalid ether address' in output: invalid = True
+
+    
+    print('[+] Starting Network Manager....')
+    sleep(1)
+    system('sudo ifconfig ' + interface + ' up')
+    enable_network()
+   
+    
+    if not invalid:
+        print('\n[+] Success')
+        print('[+] Previous Mac --> ' + current_mac)
+        print('[+] New Mac --> ' + new_mac)
+        exit()
+
+    print('\n[+] Error! Invalid Mac Address...')
+    exit()
+
+
+
+
+def get_permanent_mac(interface):
+    #Get permanent mac address of specified interface.
+    interfaces = {}
+
+    for line in open('/etc/Umacchanger/Umacchanger.config'):
+        details = line.split('=>')                                                          #[eth0, 00:11:22:33:44:55\n]
+        interfaces[details[0]] = details[1].strip()
+    
+    return interfaces[interface]
+
+
+
+
+
+def create_config_file():
+    #Really not a configuration file. Just a file that stores what I hope is
+    #the permanent mac addresses.
+
+    #IMPROVE THIS FUNCTION LATER.
+ 
+    FILE_NAME = 'Umacchanger.config'
+    interfaces = []
+    interfaces = listdir('/sys/class/net')
+     
+    if not path.exists('/etc/Umacchanger/Umacchanger.config'): system('touch /etc/Umacchanger/Umacchanger.config')
+
+    with open('/etc/Umacchanger/Umacchanger.config', 'w') as config_file:
+        for interface in interfaces:
+            mac = open('/sys/class/net/'+interface+'/address')
+            
+            line = '{}=>{}\n'.format(interface, mac.strip())    #e.g wlan0=>00:11:22:33:44:55
+
+            if mac:
+                config_file.write(line)
+
+    return
+
+
+
+
+
+def generate_random_mac():
+    from random import choice
+    from string import ascii_uppercase, digits
+    md = 'ABCDEF' + digits
+    first_half = choice([vendor.strip() for vendor in open('/etc/Umacchanger/UmacchangerMacAddresses.txt')])
+    second_half= ':'.join(choice(md) + choice(md) for x in range(3))
+    
+    mac = first_half + ':' + second_half
+    return mac
+
+
+
+def valid_mac_address(mac):
+    from string import ascii_uppercase, digits
+    md = ascii_uppercase + digits
+    bits = mac.split(':')
+    
+    if len(bits) < 6: return False
+
+
+
+
+
+
+
+
+
+
+
+#############################
+####        MAIN         ####
+#############################
+
+if __name__ == '__main__':
+    args = parse_cmd_line_args()
+    
+    INTERFACE = args.interface
+    MAC = args.mac
+    RANDOM = args.random
+    PERMANENT = args.permanent
+
+    if MAC:
+        change_mac(INTERFACE, MAC)
+
+    elif RANDOM:
+        MAC = generate_random_mac()
+        change_mac(INTERFACE, MAC)
+
+    elif PERMANENT:
+        MAC = get_permanent_mac(INTERFACE)
+        change_mac(INTERFACE, MAC)
+    else:
+        print('INVALID OPTION')
+

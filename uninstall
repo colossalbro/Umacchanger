@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+from os import system
+from time import sleep
+
+print('[+] It Was Nice Living On Your System :(')
+
+sleep(2)
+
+system('sudo rm  /bin/Umacchanger')
+
+system('sudo rm -r /etc/Umacchanger')
+
+print('\n[+] I\'ve Removed My Myself From Your System')
+sleep(2)
+
+print('\n[+] Install Me Again, I Promise To Be A Good Program :D')

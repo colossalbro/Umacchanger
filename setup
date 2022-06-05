@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+from os import system
+from time import sleep              #Not Really Useful, Just to fake something important going on ;D 
+
+print('[+] I Might Ask For Your Permission To Install Myself')
+sleep(1)
+
+print('[+] Ready?')
+sleep(2)
+
+system('sudo mkdir /etc/Umacchanger')
+
+system('sudo cp UmacchangerMacAddresses.txt /etc/Umacchanger')
+
+system('sudo cp Umacchanger /bin')
+
+sleep(3)
+
+print('\n\n[+] All Done. Thank You For Installing Me :D')
