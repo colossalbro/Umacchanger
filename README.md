@@ -1,5 +1,3 @@
-# Umacchanger
-
 ## What is it?
   Umacchanger is a knock-off python script of the original macchanger program. It is not as powerful as the original macchanger program as it has only 3 of its functions (-r, -m and -p). Those three options I use the most, so I only coded those three options. 
   
