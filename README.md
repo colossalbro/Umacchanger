@@ -16,7 +16,7 @@
  ## How To Install
  Clone the repo
  ```
- git clone 
+ git clone https://github.com/lasoloc/Umacchanger
  ```
   Cd into the directory
   ```
@@ -26,6 +26,18 @@
   ```
   ./setup
   ```
+ 
+ 
+ ## To Unistall
+ cd into Umacchanger dir on system
+ ```
+ cd /path/to/Umaccahnger
+ ```
+ Run uninstall script
+ ```
+ ./uninstall
+ ```
+ 
  
  ## How To Use
  Umacchanger automates every step needed in changing an interface's mac address. So you only need to supply it arguments.
