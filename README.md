@@ -10,7 +10,7 @@
   - Use the macchanger program to actually change the interface's mac address 
   - Bring the network interface up again (using ifconfig as well)
 
-  That's 3 steps just to get the job done. And if your system's NetworkManager is configured to be crazy (and it's most likely is), any change in network or reconnection that occurs on that interface would cause NetworkManger to undo any modifications you've made to that interface. You can of course stop this behavior by killing the NetworkManager before changing the mac address but it introduces another step in changing the maccaddrss, bad news for us lazy folks :( For someone who frequently hops from random address to random address or to a specific mac this is quite irritating to do.
+  And if your system's NetworkManager is configured to be crazy (and it's most likely is), any change in network or reconnection that occurs on that interface would cause NetworkManger to undo modifications you've made to that interface. You can of course stop this behavior by killing the NetworkManager before changing the mac address but it introduces another step in changing the mac address, bad news for us lazy folks :( For someone who frequently hops from random address to random address or to a specific mac this is quite irritating to do.
   
  
  ## How To Use
