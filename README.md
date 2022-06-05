@@ -13,6 +13,20 @@
   And if your system's NetworkManager is configured to be crazy (and it most likely is), any switch in network or reconnection issue that occurs on that interface would cause NetworkManger to undo modifications you've made to that interface. You can of course stop this behavior by killing the NetworkManager before changing the mac address but it introduces another step in changing the mac address, bad news for us lazy folks. For someone who frequently hops from random address to random address or to a specific mac this is quite irritating to do.
   
  
+ ## How To Install
+ Clone the repo
+ ```
+ git clone 
+ ```
+  Cd into the directory
+  ```
+  cd Umacchanger
+  ```
+  Run the install script
+  ```
+  ./setup
+  ```
+ 
  ## How To Use
  Umacchanger automates every step needed in changing an interface's mac address. So you only need to supply it arguments.
  
