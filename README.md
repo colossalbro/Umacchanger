@@ -10,7 +10,7 @@
   - Use the macchanger program to actually change the interface's mac address 
   - Bring the network interface up again (using ifconfig as well)
 
-  And if your system's NetworkManager is configured to be crazy (and it's most likely is), any change in network or reconnection that occurs on that interface would cause NetworkManger to undo modifications you've made to that interface. You can of course stop this behavior by killing the NetworkManager before changing the mac address but it introduces another step in changing the mac address, bad news for us lazy folks. For someone who frequently hops from random address to random address or to a specific mac this is quite irritating to do.
+  And if your system's NetworkManager is configured to be crazy (and it most likely is), any switch in network or reconnection issue that occurs on that interface would cause NetworkManger to undo modifications you've made to that interface. You can of course stop this behavior by killing the NetworkManager before changing the mac address but it introduces another step in changing the mac address, bad news for us lazy folks. For someone who frequently hops from random address to random address or to a specific mac this is quite irritating to do.
   
  
  ## How To Use
@@ -39,4 +39,6 @@
  - NetworkManager or network-manager (depending on your os)
  - Python3
  
- You can always fork around add one if you want.
+ 
+ ## PS
+ I couldn't think of a better name. Feel free to fork around with this repo and add your needs.
