@@ -1,15 +1,19 @@
 #!/usr/bin/python3
-from os import system
+from os import system, getuid
 from time import sleep              #Not Really Useful, Just to fake something important going on ;D 
 
-print('[+] I Might Ask For Your Permission To Install Myself')
-sleep(1)
 
-print('[+] Ready?')
-sleep(2)
+if getuid() > 0:
+    print('[+] I\'ms Going To Ask For Your Permission To Install Myself :D')
+    sleep(1)
+
+    print('[+] Ready?')
+    sleep(2)
+
 
 system('sudo mkdir /etc/Umacchanger')
 
+print('[+] Installing...')
 system('sudo cp UmacchangerMacAddresses.txt /etc/Umacchanger')
 
 system('sudo cp Umacchanger /bin')

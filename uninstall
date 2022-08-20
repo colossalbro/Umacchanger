@@ -1,10 +1,15 @@
 #!/usr/bin/python3
-from os import system
+from os import system, getuid
 from time import sleep
+
 
 print('[+] It Was Nice Living On Your System :(')
 
 sleep(2)
+
+if userid() > 0:
+    print('[+] Permit me to clean my files up :*(')
+    sleep(1)
 
 system('sudo rm  /bin/Umacchanger')
 
